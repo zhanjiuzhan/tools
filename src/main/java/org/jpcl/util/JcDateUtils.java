@@ -94,7 +94,17 @@ public class JcDateUtils {
         return ldt.toLocalDate().toString();
     }
 
+    /**
+     * 匹配日期是否有效  日期格式 yyyy-MM-dd hh-mm-ss
+     * @param date
+     * @return
+     */
+    public static boolean checkDateValid(String date) {
+        return JcStringUtils.isBlank(date) ? false : date.matches(
+            "^\\d{4}-(0?\\d|[1][0-2])-([0-2]?\\d|[3][01]) [0-2]?\\d:[0-5]?\\d:[0-5]?\\d$");
+    }
+
     public static void main(String[] args) {
-        System.out.println(getOnlyDay(getToDay()));
+        System.out.println(checkDateValid("2018-12-31 20:09:59"));
     }
 }
