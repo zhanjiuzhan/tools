@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit;
  * 发送http请求
  * @author Administrator
  */
-public class OkHttpUtils {
+public class JcOkHttpUtils {
     private static OkHttpClient client = new OkHttpClient.Builder()
             //设置连接超时时间
             .connectTimeout(60, TimeUnit.SECONDS)
