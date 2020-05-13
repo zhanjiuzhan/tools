@@ -8,7 +8,7 @@ import java.util.Date;
 /**
  * @author Administrator
  */
-public class JcDateUtils {
+final public class JcDateUtils {
     private JcDateUtils() {}
 
     private static DateTimeFormatter defFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");

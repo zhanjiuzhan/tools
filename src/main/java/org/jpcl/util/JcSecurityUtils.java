@@ -3,6 +3,6 @@ package org.jpcl.util;
 /**
  * @author Administrator
  */
-public class JcSecurityUtils {
+final public class JcSecurityUtils {
     private JcSecurityUtils() {}
 }
