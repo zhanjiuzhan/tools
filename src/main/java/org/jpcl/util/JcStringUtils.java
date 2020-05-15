@@ -87,4 +87,21 @@ final public class JcStringUtils {
     public static boolean isNotBlank(CharSequence cs) {
         return !isBlank(cs);
     }
+
+
+    /**
+     * 保密电话号码
+     * @param phone
+     * @return
+     */
+    public static String dealPhone(String phone) {
+        if (isNotEmpty(phone) && phone.matches("^\\d{11}$")) {
+            return phone.replaceAll("(\\d{3})\\d{4}(\\d{4})", "$1****$2");
+        }
+        return phone;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(dealPhone("12112445422"));
+    }
 }
