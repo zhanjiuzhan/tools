@@ -3,6 +3,7 @@ package org.jpcl.util;
 import com.alibaba.fastjson.JSON;
 import okhttp3.*;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -81,22 +82,30 @@ public class JcOkHttpUtils {
     }
 
 
-    public void testUpload() throws IOException {
-        /*String api = "/api/files/1";
-        String url = String.format("%s%s", BASE_URL, api);
-        RequestBody requestBody = new MultipartBody.Builder()
+    public ResponseBody upload(String url, File file, Map<String, String> par) throws IOException {
+        if (url == null || file == null || !file.isFile()) {
+            return null;
+        }
+
+        MultipartBody.Builder builder = new MultipartBody.Builder()
                 .setType(MultipartBody.FORM)
-                .addFormDataPart("file", "docker_practice.pdf",
-                        RequestBody.create(MediaType.parse("multipart/form-data"),
-                                new File("C:/Users/hetiantian/Desktop/学习/docker_practice.pdf")))
-                .build();
+                .addFormDataPart("file", file.getName(),
+                        RequestBody.create(MediaType.parse("multipart/form-data"), file));
+
+        for (Map.Entry<String, String> map : par.entrySet()) {
+            builder.addFormDataPart(map.getKey(), map.getValue());
+        }
+
+        RequestBody requestBody = builder.build();
+
         Request request = new Request.Builder()
                 .url(url)
-                .post(requestBody)  //默认为GET请求，可以不写
+                .post(requestBody)
                 .build();
+
         final Call call = client.newCall(request);
         Response response = call.execute();
-        System.out.println(response.body().string());*/
+        return response.body();
     }
 
     public void testDelete() throws IOException {

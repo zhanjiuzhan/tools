@@ -2,6 +2,7 @@ package org.jpcl.util;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
@@ -33,6 +34,11 @@ final public class JcDateUtils {
         return datetime;
     }
 
+    /**
+     * 根据固定格式的字符串取得LocalDateTime
+     * @param date
+     * @return
+     */
     public static LocalDateTime getDayByString(String date) {
         LocalDateTime datetime = LocalDateTime.parse(date, defFormatter);
         return datetime;
@@ -102,6 +108,27 @@ final public class JcDateUtils {
     public static boolean checkDateValid(String date) {
         return JcStringUtils.isBlank(date) ? false : date.matches(
             "^\\d{4}-(0?\\d|[1][0-2])-([0-2]?\\d|[3][01]) [0-2]?\\d:[0-5]?\\d:[0-5]?\\d$");
+    }
+
+    /**
+     * 匹配日期是否有效  日期格式 yyyy-MM-dd
+     * @param date
+     * @return
+     */
+    public static boolean checkDateValid2(String date) {
+        return JcStringUtils.isBlank(date) ? false : date.matches(
+                "^\\d{4}-(0?\\d|[1][0-2])-([0-2]?\\d|[3][01])$");
+    }
+
+    /**
+     * 根据毫秒取得指定的日期
+     * @param time
+     * @return
+     */
+    public static String getDateByMillSeconds(Long time) {
+        return getStringByDate(LocalDateTime.ofEpochSecond(
+            time/1000, 0, ZoneOffset.ofHours(8)
+        ));
     }
 
     public static void main(String[] args) {

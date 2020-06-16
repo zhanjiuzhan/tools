@@ -50,6 +50,28 @@ final public class JcStringUtils {
     }
 
     /**
+     * 判断字符串是否 全部不是空
+     * @param css
+     * @return
+     */
+    public static boolean isAllNotEmpty(CharSequence... css) {
+        if (css == null || Array.getLength(css) == 0) {
+            return false;
+        } else {
+            CharSequence[] var1 = css;
+            int var2 = css.length;
+
+            for(int var3 = 0; var3 < var2; ++var3) {
+                CharSequence cs = var1[var3];
+                if (isEmpty(cs)) {
+                    return false;
+                }
+            }
+            return true;
+        }
+    }
+
+    /**
      * 取得字符串的长度
      * @param cs
      * @return
