@@ -5,6 +5,7 @@ import okhttp3.*;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -37,6 +38,30 @@ public class JcOkHttpUtils {
         return response.body().string();
     }
 
+    /**
+     * 发送post请求
+     * @param url
+     * @param parameter
+     * @return
+     * @throws IOException
+     */
+    public static String postByBody(String url, HashMap<String, String> parameter) throws IOException {
+        FormBody.Builder builder = new FormBody.Builder();
+
+        for (Map.Entry<String, String> map : parameter.entrySet()) {
+            builder.add(map.getKey(), map.getValue());
+        }
+
+        RequestBody requestBody =  builder.build();
+
+        Request request = new Request.Builder()
+                .url(url)
+                .post(requestBody)
+                .build();
+        final Call call = client.newCall(request);
+        Response response = call.execute();
+        return response.body().string();
+    }
 
     /**
      * 发送post请求
@@ -45,7 +70,7 @@ public class JcOkHttpUtils {
      * @return
      * @throws IOException
      */
-    public static String post(String url, Map<String, Object> parameter) throws IOException {
+    public static String postByJson(String url, HashMap<String, String> parameter) throws IOException {
         String urlParameter;
         if (parameter == null || parameter.size() == 0) {
             urlParameter = "";
@@ -144,6 +169,6 @@ public class JcOkHttpUtils {
     }
 
     public static void main(String[] args) throws IOException {
-        System.out.println(post("http://www.baidu.com", null));
+        System.out.println(postByJson("http://www.baidu.com", null));
     }
 }
