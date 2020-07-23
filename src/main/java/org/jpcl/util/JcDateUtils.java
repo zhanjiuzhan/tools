@@ -1,10 +1,15 @@
 package org.jpcl.util;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author Administrator
@@ -131,7 +136,39 @@ final public class JcDateUtils {
         ));
     }
 
+    /**
+     * 取得时间段内的每一天
+     * @param begintTime
+     * @param endTime
+     * @return
+     */
+    public static List<String> findDaysStr(String begintTime, String endTime) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date dBegin = null;
+        Date dEnd = null;
+        try {
+            dBegin = sdf.parse(begintTime);
+            dEnd = sdf.parse(endTime);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        List<String> daysStrList = new ArrayList<String>();
+        daysStrList.add(sdf.format(dBegin));
+        Calendar calBegin = Calendar.getInstance();
+        calBegin.setTime(dBegin);
+        Calendar calEnd = Calendar.getInstance();
+        calEnd.setTime(dEnd);
+        while (dEnd.after(calBegin.getTime())) {
+            calBegin.add(Calendar.DAY_OF_MONTH, 1);
+            String dayStr = sdf.format(calBegin.getTime());
+            daysStrList.add(dayStr);
+        }
+        return daysStrList;
+    }
+
     public static void main(String[] args) {
-        System.out.println(checkDateValid("2018-12-31 20:09:59"));
+        findDaysStr("2020-01-01", "2020-07-13").forEach((data)->{
+            System.out.println(data);
+        });
     }
 }
