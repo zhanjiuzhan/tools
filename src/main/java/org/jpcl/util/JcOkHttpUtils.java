@@ -3,8 +3,8 @@ package org.jpcl.util;
 import com.alibaba.fastjson.JSON;
 import okhttp3.*;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
+import java.nio.channels.FileChannel;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -36,6 +36,23 @@ public class JcOkHttpUtils {
         Response response = call.execute();
         response.header("Content-Type");
         return response.body().string();
+    }
+
+    /**
+     * 发送get请求 取得一个流对象
+     * @param url
+     * @return
+     * @throws IOException
+     */
+    public static InputStream getStream(String url) throws IOException {
+        Request request = new Request.Builder()
+                .url(url)
+                .get()
+                .build();
+        final Call call = client.newCall(request);
+        Response response = call.execute();
+        response.header("Content-Type");
+        return response.body().byteStream();
     }
 
     /**
@@ -168,7 +185,37 @@ public class JcOkHttpUtils {
         System.out.println(response.body().string());*/
     }
 
+
+    public static void writeToLocal(File file, InputStream input)
+            throws IOException {
+        int index;
+        byte[] bytes = new byte[1024];
+        FileOutputStream downloadFile = new FileOutputStream(file);
+        while ((index = input.read(bytes)) != -1) {
+            downloadFile.write(bytes, 0, index);
+            downloadFile.flush();
+        }
+        input.close();
+        downloadFile.close();
+    }
+
+    public static void writeToLocal1(File file, InputStream input) throws Exception {
+        FileOutputStream fos = new FileOutputStream(file);
+        // TODO  强转错误
+        FileChannel fic = ((FileInputStream) input).getChannel();
+        FileChannel foc = fos.getChannel();
+        fic.transferTo(0, fic.size(), foc);
+        fic.close();
+        foc.close();
+        fos.close();
+    }
+
+
     public static void main(String[] args) throws IOException {
-        System.out.println(postByJson("http://www.baidu.com", null));
+        InputStream in = getStream("http://download.game.yy.com/medialib/1595496601/liusetaozhuang/bk.jpg");
+        File file = new File("F:\\bk.jpg");
+        if (in != null) {
+            writeToLocal(file, in);
+        }
     }
 }
