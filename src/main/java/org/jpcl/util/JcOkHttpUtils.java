@@ -7,7 +7,9 @@ import java.io.*;
 import java.nio.channels.FileChannel;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Consumer;
 
 /**
  * 发送http请求
@@ -19,7 +21,7 @@ public class JcOkHttpUtils {
             .connectTimeout(60, TimeUnit.SECONDS)
             //设置读取超时时间
             .readTimeout(60, TimeUnit.SECONDS)
-            .build();;
+            .build();
 
     /**
      * 发送get请求
@@ -106,6 +108,21 @@ public class JcOkHttpUtils {
         return response.body().string();
     }
 
+    public static String getRequestPar(Map<String, String> map) {
+        StringBuilder log = new StringBuilder();
+        int index = 0;
+        for (Map.Entry<String, String> obj : map.entrySet()) {
+            if (index == 0) {
+                log.append("?");
+            } else {
+                log.append("&");
+            }
+
+            log.append(obj.getKey() + "=" + obj.getValue());
+            index ++;
+        }
+        return log.toString();
+    }
 
     public void testPut() throws IOException {
         /*String api = "/api/user";

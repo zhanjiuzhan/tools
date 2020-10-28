@@ -11,7 +11,7 @@ public class JcUUIDUtils {
      * 取得一个UUID
      * @return
      */
-    private String generate32UUID() {
+    public static String generate32UUID() {
         String uuid = UUID.randomUUID().toString().trim().replaceAll("-", "");
         return uuid;
     }

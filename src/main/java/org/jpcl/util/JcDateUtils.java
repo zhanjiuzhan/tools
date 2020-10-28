@@ -57,13 +57,11 @@ final public class JcDateUtils {
      */
     public static String getStringByDate(LocalDateTime date, String format) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format);
-        String nowText = date.format(formatter);
-        return nowText;
+        return date.format(formatter);
     }
 
     public static String getStringByDate(LocalDateTime date) {
-        String nowText = date.format(defFormatter);
-        return nowText;
+        return date.format(defFormatter);
     }
 
     /**
@@ -164,6 +162,10 @@ final public class JcDateUtils {
             daysStrList.add(dayStr);
         }
         return daysStrList;
+    }
+
+    public static String getDateByMilli(long milli) {
+        return getStringByDate(LocalDateTime.ofEpochSecond(milli/1000,0, ZoneOffset.ofHours(8)));
     }
 
     public static void main(String[] args) {
