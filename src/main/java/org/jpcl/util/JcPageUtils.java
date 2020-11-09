@@ -28,9 +28,16 @@ public class JcPageUtils<T> {
     private List<T> data;
 
     public JcPageUtils(){
-        pageSize = 10;
-        currentPage = 1;
-        data = new ArrayList<>(0);
+        this.pageSize = 10;
+        this.currentPage = 1;
+        this.data = new ArrayList<>(0);
+    }
+
+    public JcPageUtils(Page page, int count, List<T> data){
+        this.pageSize = page.getCurrentPageSize();
+        this.currentPage = page.getCurrentPage();
+        this.count = count;
+        this.data = data;
     }
 
     public JcPageUtils(int count){
@@ -105,5 +112,19 @@ public class JcPageUtils<T> {
             this.data = data;
         }
         return this;
+    }
+
+    public interface Page {
+        /**
+         * 取得当前的页数
+         * @return
+         */
+        Integer getCurrentPage();
+
+        /**
+         * 取得当前的每页大小
+         * @return
+         */
+        Integer getCurrentPageSize();
     }
 }
