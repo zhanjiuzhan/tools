@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * @author Administrator
  */
-public class JcPageUtils<T> {
+public class PageUtils<T> {
     /**
      * 一页显示的条目数
      */
@@ -27,35 +27,35 @@ public class JcPageUtils<T> {
      */
     private List<T> data;
 
-    public JcPageUtils(){
+    public PageUtils(){
         this.pageSize = 10;
         this.currentPage = 1;
         this.data = new ArrayList<>(0);
     }
 
-    public JcPageUtils(Page page, int count, List<T> data){
+    public PageUtils(Page page, int count, List<T> data){
         this.pageSize = page.getCurrentPageSize();
         this.currentPage = page.getCurrentPage();
         this.count = count;
         this.data = data;
     }
 
-    public JcPageUtils(int count){
+    public PageUtils(int count){
         this();
         this.setCount(count);
     }
 
-    public JcPageUtils(int count, int pageSize){
+    public PageUtils(int count, int pageSize){
         this(count);
         this.setPageSize(pageSize);
     }
 
-    public JcPageUtils(int count, int pageSize, int currentPage){
+    public PageUtils(int count, int pageSize, int currentPage){
         this(count, pageSize);
         this.setCurrentPage(currentPage);
     }
 
-    public JcPageUtils(int count, int pageSize, int currentPage, List<T> data){
+    public PageUtils(int count, int pageSize, int currentPage, List<T> data){
         this(count, pageSize, currentPage);
         this.setData(data);
     }
@@ -68,7 +68,7 @@ public class JcPageUtils<T> {
         return pageSize;
     }
 
-    public JcPageUtils setPageSize(int pageSize) {
+    public PageUtils setPageSize(int pageSize) {
         if (pageSize < 1) {
             this.pageSize = 1;
         } else {
@@ -81,7 +81,7 @@ public class JcPageUtils<T> {
         return currentPage;
     }
 
-    public JcPageUtils setCurrentPage(int currentPage) {
+    public PageUtils setCurrentPage(int currentPage) {
         if (currentPage < 1) {
             this.currentPage = 1;
         } else {
@@ -94,7 +94,7 @@ public class JcPageUtils<T> {
         return count;
     }
 
-    public JcPageUtils setCount(int count) {
+    public PageUtils setCount(int count) {
         if (count < 0) {
             this.count = 0;
         } else {
@@ -107,7 +107,7 @@ public class JcPageUtils<T> {
         return data;
     }
 
-    public JcPageUtils setData(List<T> data) {
+    public PageUtils setData(List<T> data) {
         if (data != null) {
             this.data = data;
         }

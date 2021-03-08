@@ -7,15 +7,13 @@ import java.io.*;
 import java.nio.channels.FileChannel;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 import java.util.concurrent.TimeUnit;
-import java.util.function.Consumer;
 
 /**
  * 发送http请求
  * @author Administrator
  */
-public class JcOkHttpUtils {
+public class OkHttpUtils {
     private static OkHttpClient client = new OkHttpClient.Builder()
             //设置连接超时时间
             .connectTimeout(60, TimeUnit.SECONDS)

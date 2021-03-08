@@ -6,16 +6,13 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author Administrator
  */
-final public class JcDateUtils {
-    private JcDateUtils() {}
+final public class DateUtils {
+    private DateUtils() {}
 
     private static DateTimeFormatter defFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
@@ -104,13 +101,22 @@ final public class JcDateUtils {
     }
 
     /**
+     * 取得指定日期的毫秒
+     * @param now
+     * @return
+     */
+    public static long getTimeMillis(String now){
+        return getDayByString(now).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
+    }
+
+    /**
      * 匹配日期是否有效  日期格式 yyyy-MM-dd hh-mm-ss
      * @param date
      * @return
      */
     public static boolean checkDateValid(String date) {
-        return JcStringUtils.isBlank(date) ? false : date.matches(
-            "^\\d{4}-(0?\\d|[1][0-2])-([0-2]?\\d|[3][01]) [0-2]?\\d:[0-5]?\\d:[0-5]?\\d$");
+        return !StringUtils.isBlank(date) && date.matches(
+                "^\\d{4}-(0?\\d|[1][0-2])-([0-2]?\\d|[3][01]) [0-2]?\\d:[0-5]?\\d:[0-5]?\\d$");
     }
 
     /**
@@ -119,7 +125,7 @@ final public class JcDateUtils {
      * @return
      */
     public static boolean checkDateValid2(String date) {
-        return JcStringUtils.isBlank(date) ? false : date.matches(
+        return !StringUtils.isBlank(date) && date.matches(
                 "^\\d{4}-(0?\\d|[1][0-2])-([0-2]?\\d|[3][01])$");
     }
 
@@ -136,32 +142,30 @@ final public class JcDateUtils {
 
     /**
      * 取得时间段内的每一天
-     * @param begintTime
+     * @param beginTime
      * @param endTime
      * @return
      */
-    public static List<String> findDaysStr(String begintTime, String endTime) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        Date dBegin = null;
-        Date dEnd = null;
+    public static List<String> findDaysStr(String beginTime, String endTime) {
+        final SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
+        List<String> daysStrList = new ArrayList<>();
         try {
-            dBegin = sdf.parse(begintTime);
-            dEnd = sdf.parse(endTime);
+            Date dBegin = fmt.parse(beginTime);
+            Date dEnd = fmt.parse(endTime);
+            daysStrList.add(fmt.format(dBegin));
+            Calendar calBegin = Calendar.getInstance();
+            calBegin.setTime(dBegin);
+            Calendar calEnd = Calendar.getInstance();
+            calEnd.setTime(dEnd);
+            while (dEnd.after(calBegin.getTime())) {
+                calBegin.add(Calendar.DAY_OF_MONTH, 1);
+                String dayStr = fmt.format(calBegin.getTime());
+                daysStrList.add(dayStr);
+            }
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        List<String> daysStrList = new ArrayList<String>();
-        daysStrList.add(sdf.format(dBegin));
-        Calendar calBegin = Calendar.getInstance();
-        calBegin.setTime(dBegin);
-        Calendar calEnd = Calendar.getInstance();
-        calEnd.setTime(dEnd);
-        while (dEnd.after(calBegin.getTime())) {
-            calBegin.add(Calendar.DAY_OF_MONTH, 1);
-            String dayStr = sdf.format(calBegin.getTime());
-            daysStrList.add(dayStr);
-        }
-        return daysStrList;
+        return Collections.unmodifiableList(daysStrList);
     }
 
     public static String getDateByMilli(long milli) {
@@ -169,8 +173,6 @@ final public class JcDateUtils {
     }
 
     public static void main(String[] args) {
-        findDaysStr("2020-01-01", "2020-07-13").forEach((data)->{
-            System.out.println(data);
-        });
+        findDaysStr("2020-01-01", "2020-07-13").forEach(System.out::println);
     }
 }

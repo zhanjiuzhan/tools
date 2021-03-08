@@ -8,7 +8,7 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class JcChinesCalendar {
+public class ChinesCalendar {
     long[] lunarInfo = new long[]{
             0x4bd8, 0x4ae0, 0xa570, 0x54d5, 0xd260, 0xd950, 0x5554, 0x56af, 0x9ad0, 0x55d2,
             0x4ae0, 0xa5b6, 0xa4d0, 0xd250, 0xd255, 0xb54f, 0xd6a0, 0xada2, 0x95b0, 0x4977,
@@ -32,7 +32,7 @@ public class JcChinesCalendar {
             0xe968, 0xd520, 0xdaa0, 0x6aa6, 0x56df, 0x4ae0, 0xa9d4, 0xa4d0, 0xd150, 0xf252,
             0xd520};
     List<Element> elements=new ArrayList<Element>();
-    public static  Map<String, JcChinesCalendar> cache=new HashMap<String, JcChinesCalendar>();
+    public static  Map<String, ChinesCalendar> cache=new HashMap<String, ChinesCalendar>();
     long[] solarMonth = new long[]{31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
     String[] Gan = new String[]{"甲", "乙", "丙", "丁", "戊", "己", "庚", "辛", "壬", "癸"};
     String[] Zhi = new String[]{"子", "丑", "寅", "卯", "辰", "巳", "午", "未", "申", "酉", "戌", "亥"};
@@ -211,11 +211,11 @@ public class JcChinesCalendar {
         int year=cal.get(Calendar.YEAR);
         int month=cal.get(Calendar.MONTH);
         String cacheKey=(year+"-"+month);
-        JcChinesCalendar lunarCalendarUtil=null;
+        ChinesCalendar lunarCalendarUtil=null;
         if(false){
             lunarCalendarUtil=cache.get(cacheKey);
         }else {
-            lunarCalendarUtil=new JcChinesCalendar();
+            lunarCalendarUtil=new ChinesCalendar();
             lunarCalendarUtil.calendar(year, month);
             cache.put(cacheKey,lunarCalendarUtil);
         }
@@ -820,7 +820,7 @@ public class JcChinesCalendar {
 
 
     public static void main(String[] args) throws ParseException {
-        JcChinesCalendar.Element element = JcChinesCalendar.getCalendarDetail(new Date());
+        ChinesCalendar.Element element = ChinesCalendar.getCalendarDetail(new Date());
         System.out.println(element);
     }
 }

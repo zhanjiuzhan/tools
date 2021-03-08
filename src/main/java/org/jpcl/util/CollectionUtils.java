@@ -6,8 +6,8 @@ import java.util.List;
 /**
  * 集合的工具类
  */
-final public class JcCollectionUtils {
-    private JcCollectionUtils() {}
+final public class CollectionUtils {
+    private CollectionUtils() {}
 
     /**
      * 判断一个集合是否是空的集合

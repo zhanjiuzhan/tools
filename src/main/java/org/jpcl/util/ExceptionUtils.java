@@ -5,7 +5,7 @@ import java.util.function.BooleanSupplier;
 /**
  * @author Administrator
  */
-final public class JcExceptionUtils {
+final public class ExceptionUtils {
 
     public static void checkValid(boolean flag, RuntimeException exception) {
         if (flag) {

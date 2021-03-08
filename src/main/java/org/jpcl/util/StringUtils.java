@@ -5,9 +5,9 @@ import java.lang.reflect.Array;
 /**
  * @author chenglei
  */
-final public class JcStringUtils {
+final public class StringUtils {
 
-    private JcStringUtils() {}
+    private StringUtils() {}
 
     /**
      * 判断字符串是否为空, 空格啥的也算字符串

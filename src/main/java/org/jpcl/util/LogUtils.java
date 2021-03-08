@@ -3,7 +3,7 @@ package org.jpcl.util;
 /**
  * @author Administrator
  */
-public class JcLogUtils {
+public class LogUtils {
     public static String start(String msg, String... str) {
         return "[ 开始 ] -> " + msg + log(str);
     }

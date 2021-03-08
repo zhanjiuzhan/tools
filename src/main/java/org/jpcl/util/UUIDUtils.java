@@ -5,7 +5,7 @@ import java.util.UUID;
 /**
  * @author Administrator
  */
-public class JcUUIDUtils {
+public class UUIDUtils {
 
     /**
      * 取得一个UUID

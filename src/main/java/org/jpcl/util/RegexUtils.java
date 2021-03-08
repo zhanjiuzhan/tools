@@ -5,14 +5,14 @@ import java.util.regex.Pattern;
 /**
  * @author Administrator
  */
-final public class JcRegexUtils {
+final public class RegexUtils {
 
-    private JcRegexUtils() {}
+    private RegexUtils() {}
 
     public final static String keyWord = "^[a-zA-Z_]\\w{0,31}$";
 
     public final static boolean isKeyWord(String str) {
-        if (JcStringUtils.isNotEmpty(str)) {
+        if (StringUtils.isNotEmpty(str)) {
             return Pattern.matches(keyWord, str);
         }
         return false;

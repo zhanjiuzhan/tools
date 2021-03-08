@@ -30,7 +30,7 @@ import java.util.function.BiFunction;
 /**
  * @author Administrator
  */
-public class JcExcelUtils {
+public class ExcelUtils {
     /**
      * 读取Excel的文件内容 用来转换成对象的
      * @param inputStream

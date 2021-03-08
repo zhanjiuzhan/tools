@@ -9,7 +9,7 @@ import java.io.InputStream;
 /**
  * @author Administrator
  */
-public class JcPathUtils {
+public class PathUtils {
 
     /**
      * 我觉得没啥用
@@ -52,6 +52,6 @@ public class JcPathUtils {
         return flag;
     }
     public static void main(String[] args) throws IOException {
-        System.out.println(JcPathUtils.class.getResource("/"));
+        System.out.println(PathUtils.class.getResource("/"));
     }
 }

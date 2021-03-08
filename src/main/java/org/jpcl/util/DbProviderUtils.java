@@ -3,7 +3,7 @@ package org.jpcl.util;
 /**
  * @author Administrator
  */
-public class JcDbProviderUtils {
+public class DbProviderUtils {
 
     protected String getLimit(int currentPage, int pageSize) {
         return " limit "

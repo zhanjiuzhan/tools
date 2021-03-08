@@ -19,10 +19,10 @@ import java.util.*;
 /**
  * @author Administrator
  */
-final public class JcSecurityUtils {
-    private JcSecurityUtils() {}
+final public class SecurityUtils {
+    private SecurityUtils() {}
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(JcSecurityUtils.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SecurityUtils.class);
     /** 算法名称 */
     private static final String ALGORITHM =  "RSA";
     /** 默认密钥大小 */
@@ -116,12 +116,12 @@ final public class JcSecurityUtils {
         //存放密钥的绝对地址
         String path = null;
         try{
-            path = JcSecurityUtils.class.getClassLoader().getResource(fileName).toString();
+            path = SecurityUtils.class.getClassLoader().getResource(fileName).toString();
             path = path.substring(path.indexOf(":") + 1);
         }catch (NullPointerException e){
             //如果不存#fileName#就创建
             LOGGER.warn("storeKey()# " + fileName + " is not exist.Begin to create this file.");
-            String classPath = JcSecurityUtils.class.getClassLoader().getResource("").toString();
+            String classPath = SecurityUtils.class.getClassLoader().getResource("").toString();
             String prefix = classPath.substring(classPath.indexOf(":") + 1);
             String suffix = fileName;
             File file = new File(prefix + suffix);
@@ -149,11 +149,11 @@ final public class JcSecurityUtils {
      * @return Base64编码的密钥字符串
      */
     private static String getKeyString(String keyName, String fileName){
-        if (JcSecurityUtils.class.getClassLoader().getResource(fileName) == null){
+        if (SecurityUtils.class.getClassLoader().getResource(fileName) == null){
             LOGGER.warn("getKeyString()# " + fileName + " is not exist.Will run #generateKeyPair()# firstly.");
             generateKeyPair();
         }
-        try(InputStream in = JcSecurityUtils.class.getClassLoader().getResource(fileName).openStream()){
+        try(InputStream in = SecurityUtils.class.getClassLoader().getResource(fileName).openStream()){
             Properties properties = new Properties();
             properties.load(in);
             return properties.getProperty(keyName);
@@ -435,11 +435,11 @@ final public class JcSecurityUtils {
 
     public static void main(String[] args) {
         String s = "test10213asd";
-        Map<String, String> map = JcSecurityUtils.generateKeyPair();
-        String c1 = JcSecurityUtils.encryptByPublic(s.getBytes(), getPublicKey(map.get("public")));
-        String m1 = JcSecurityUtils.decryptByPrivate(c1,getPrivateKey(map.get("private")));
-        String c2 = JcSecurityUtils.encryptByPrivate(s.getBytes(),getPrivateKey(map.get("private")));
-        String m2 = JcSecurityUtils.decryptByPublic(c2,getPublicKey(map.get("public")));
+        Map<String, String> map = SecurityUtils.generateKeyPair();
+        String c1 = SecurityUtils.encryptByPublic(s.getBytes(), getPublicKey(map.get("public")));
+        String m1 = SecurityUtils.decryptByPrivate(c1,getPrivateKey(map.get("private")));
+        String c2 = SecurityUtils.encryptByPrivate(s.getBytes(),getPrivateKey(map.get("private")));
+        String m2 = SecurityUtils.decryptByPublic(c2,getPublicKey(map.get("public")));
         System.out.println(c1);
         System.out.println(m1);
         System.out.println(c2);

@@ -3,9 +3,9 @@ package org.jpcl.util;
 /**
  * @author chenglei
  */
-final public class JcConstUtils {
+final public class ConstUtils {
 
-    private JcConstUtils() {}
+    private ConstUtils() {}
 
     // 文件描述符
     /**
