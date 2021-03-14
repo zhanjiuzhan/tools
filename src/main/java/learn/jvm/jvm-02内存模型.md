@@ -155,7 +155,55 @@ jvm虚拟机在将类装载到内存中后，jvm就会将class常量池中的内
 java虚拟机缓存了Integer、Byte、Short、Character、Boolean包装类在-128~127(Character 0-127)之间的值，如果取值在这个范围内，
 会从int常量池取出一个int并自动装箱成Integer，超出这个范围就会重新创建一个。  
 
+#### 1.4.4 元空间
+元空间(metaspace)，JDK8之后用来代替方法区，存储再本地内存。  
+> MetaSpaceSize：初始化元空间大小，控制发生GC阈值  
+> MaxMetaspaceSize ： 限制元空间大小上限，防止异常占用过多物理内存  
+
 ### 1.5 堆
+堆(heap)，JVM中占用内存最大的一块区域。主要存储new关键字创建的对象实例和数组。
+
+**特点** 
+> 主要的数据存储区域，线程共享的  
+> 主要的垃圾回收对象  
+> 内存不足时将抛出OutOfMemoryError异常  
+
+#### 1.5.1 堆内存的划分
+![alt jvm堆内存结构](img/jvm堆内存结构.png)  
+1. 新生代（Young Generation）  
+存储new关键字创建的新对象，默认eden:From Survivor:To Survivor=8:1:1  
+1.1 Eden区  
+eden即伊甸园，它占用的空间通常比survivor大。对象刚开始创建的时候就会存储在该区域。  
+1.2 Survivor区。  
+1.2.1 From Survivor  
+实际上作为回收的一个交换区，用于对对象进行多次gc，当gc多次(临界值 15)还存活的对象将被放入年老代。  
+1.2.2 To Survivor  
+minor gc时会先将eden区和from survivor区的对象进行回收，存活的对象将复制到to survivor区中，然后交换From Survivor和To Survivor的角色。
+2. 旧生代（Old Generation）  
+也叫年老代，存储生命周期特别久或者大对象
+3. 永久代  
+jdk7之前对方法区的回收处理方式，jdk8之后用metaspace替换了  
+
+**GC 顺序**  
+1> 刚创建的对象将放入Eden区  
+2> eden空间不足将进行gc， 第一次GC时，将扫描eden和From Survivor区域，将存活的对象复制到To Survivor ，然后交互From Survivor和To Survivor的角色。
+ To Survivor存储gc后仍然存活的对象，交换后 -> From Survivor  
+ From Survivor在gc时将存活的对象复制到了to Survivor，此时为空，交换后 -> From Survivor  
+3> 重复2步骤，当一个对象被多次gc后仍然存活，那么将该对象放入年老代。  
+
+#### 1.5.2 堆的配置参数
+| 参数   |描述   |
+| ---- | ---- |
+|-Xms|堆内存初始大小|
+|-Xmx(MaxHeapSize)  | 堆内存最大允许大小，一般不要大于物理内存的80% |
+|-XX:NewSize(-Xns)  | 年轻代内存初始大小           |
+|-XX:MaxNewSize(-Xmn)       | 年轻代内存最大允许大小，也可以缩写           |
+|-XX:NewRatio       | 新生代和老年代的比值, 值为4 表示 新生代:老年代=1:4，即年轻代占堆的1/5 |
+|-XX:SurvivorRatio=8       | 年轻代中Eden区与Survivor区的容量比例值，默认为8, 表示两个Survivor :eden=2:8，即一个Survivor占年轻代的1/10          |
+|-XX:+HeapDumpOnOutOfMemoryError       | 内存溢出时，导出堆信息到文件          |
+|-XX:+HeapDumpPath       |  堆Dump路径         |
+|-XX:OnOutOfMemoryError       | 当发生OOM内存溢出时，执行一个脚本          |
+|-XX:MaxTenuringThreshold=7       |表示如果在幸存区移动多少次没有被垃圾回收，进入老年代           |
 
 ### 1.6 直接内存
 直接内存（Direct Memory）并不是虚拟机运行时数据区的一部分，也不是Java虚拟机规范中定义的内存区域，但是这部分内存也被频繁地使用，而且也可能导致OutOfMemoryError 异常出现。
@@ -171,11 +219,7 @@ java虚拟机缓存了Integer、Byte、Short、Character、Boolean包装类在-1
 > 基本数据类型之间应用双等号，比较的是他们的数值。
 > 复合数据类型(类)之间应用双等号，比较的是他们在内存中的存放地址。
 
-## 2.1 常量  
-
-
-
-## 2.2 String 常量池  
+## 2.1 String 常量池  
 ```java
 public class StringConstTest {
     private static void demo1() {
@@ -289,7 +333,7 @@ public class StringConstTest {
 }
 ```
 
-## 2.3 基本类型常量池  
+## 2.2 基本类型常量池  
 ```java
 public class OtherConstTest {
 
@@ -393,4 +437,4 @@ public class JvmDemo01 {
 3. [虚拟机栈](https://zhuanlan.zhihu.com/p/45354152)
 4. [方法区](https://www.jianshu.com/p/59f98076b382)
 5. [常量池](https://blog.csdn.net/xiaojin21cen/article/details/105300521)
-
+6. [jvm内存结构](https://blog.csdn.net/rongtaoup/article/details/89142396)
