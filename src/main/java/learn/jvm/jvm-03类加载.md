@@ -370,5 +370,4 @@ final class Math {
 ## 附录
 1. [类加载器](https://blog.csdn.net/javazejian/article/details/73413292)  
 2. [tomcat类加载](https://www.cnblogs.com/aspirant/p/8991830.html)
-3. [上下文类加载器](https://www.cnblogs.com/aspirant/p/8991830.html)
-
+3. [线程上下文类加载器](https://www.cnblogs.com/aspirant/p/8991830.html)  
