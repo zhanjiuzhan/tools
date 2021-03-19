@@ -31,6 +31,12 @@ java SE 主流JVM介绍
 | Zing VM     | Azul公司打造的，为需要大内存，高事务率，一致响应时间或者高持续吞吐量企业应用设计的与堆大小无关，可预测响应时间的JVM| 1. 更好的性能(支持 Zing 的 Falcon JIT 编译器是使用 LLVM 技术构建的，其可提供深入的优化。) <br/> 2. 无停顿执行(Azul 解决了Java 的垃圾回收问题。停止和应用程序超时、GC 停顿、停滞和抖动周旋) <br/>3. 更快速启动(凭借 ReadyNow!® 技术，Java 应用程序启动速度快，且能保持高速运行) |收费|
 | JRockit     | 以前的JVM(Hotspot, J9, JRockit称三大主流JVM)， Oracle收购Sun后淘汰了|||
 
+### 2.1 HotSpot VM的Client模式和Server模式
+Client模式: 适合桌面程序，通过快速初始哈，懒加载等优化减少启动时间，适应桌面程序特点。默认32位的hotspot都是client模式。  
+Server模式: 适合服务器程序，预加载，并发等优化。默认64位的的都是server模式。  
+共同点: 共用一套解释器。   
+
+通过配置 %JAVA_HOME%/jre/lib/[i386/amd64]/jvm.cfg中-client， -server的位置来决定使用那种模式。  
 
 ## 3. JVM 执行过程
 1> 编写java文件  
